@@ -26,11 +26,11 @@ The output of the run_analysis.R is a text file, written to disk in the working 
 
 **Recipe for moving from raw data to tidy data:**
 
-*load dplyr package
+* load dplyr package
 ```
 library(dplyr)
 ```
-*read in the data from the local directory: X_train.txt, X_test.txt,Y_train.txt,Y_test.txt,activity_labels.txt, features.txt,subject_test.txt,subject_train.txt.
+* read in the data from the local directory: X_train.txt, X_test.txt,Y_train.txt,Y_test.txt,activity_labels.txt, features.txt,subject_test.txt,subject_train.txt.
 ```
 trainX.data<-read.table("./UCI HAR Dataset/train/X_train.txt",sep = "", header=FALSE)
 testX.data<-read.table("./UCI HAR Dataset/test/X_test.txt",sep = "", header=FALSE)
@@ -42,47 +42,47 @@ subject_test.data<-read.table("./UCI HAR Dataset/test/subject_test.txt",sep = ""
 subject_train.data<-read.table("./UCI HAR Dataset/train/subject_train.txt",sep = "", header=FALSE)
 ```
 
-1. Merges the training and the test sets to create one data set.
+* 1. Merges the training and the test sets to create one data set.
 
-+First combines the data set test or train with the subject information for both test and train.
++ First combines the data set test or train with the subject information for both test and train.
 ```
 testX1.data<-cbind(subject_test.data,testX.data)
 trainX1.data<-cbind(subject_train.data,trainX.data)
 ```
-+Combines by row the X test and X train data into a single data set 
++ Combines by row the X test and X train data into a single data set 
 ```
 newdataX<-rbind(testX1.data,trainX1.data)
 newdataY<-rbind(testY.data,trainY.data)
 ```
-+Names columns of X data with "subject"" and feature names from feature file
++ Names columns of X data with "subject"" and feature names from feature file
 ```
 names(newdataX)<-c("subject",as.character(featurenames.data[,2])) 
 ```
-+Names column header for Y data as "activity_number"
++ Names column header for Y data as "activity_number"
 ```
 names(newdataY)<-"activity_number"
 ```
-+Combines the two data sets together so activity number is with each row
++ Combines the two data sets together so activity number is with each row
 
-+Makes it a datatable. Note that combined dataset newdata is 10299 x 563 in size
++ Makes it a datatable. Note that combined dataset newdata is 10299 x 563 in size
 ```
 newdata<-tbl_df(cbind(newdataX$subject,newdataY,newdataX[,2:562]))
 ```
-+Renames column 1 to "subject"
++ Renames column 1 to "subject"
 ```
 names(newdata)[1]<-"subject"
 ```
-2. Extracts only the measurements on the mean and standard deviation for each measurement. 
+* 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 
-+use select from dplyr package with string matching. Note the result is 68 columns.
++ Use select from dplyr package with string matching. Note the result is 68 columns.
 ```
 stat<-select(newdata, matches("(subject)+|(activity_number)+|(mean\\(\\))+|(std\\(\\))+", ignore.case = TRUE))
 ```
-+Note that this does not include the angle measures which measure between two variables where one was labeled "Mean" or the variables which calculated the mean of the Frequency.
++ Note that this does not include the angle measures which measure between two variables where one was labeled "Mean" or the variables which calculated the mean of the Frequency.
 
-3. Uses descriptive activity names to name the activities in the data set
+* 3. Uses descriptive activity names to name the activities in the data set
 
-+Renames each activity number to the associated character text
++ Renames each activity number to the associated character text
 ```
 actnumber <- stat[,2] == 1
 stat[which(actnumber),2] <- "walking"
@@ -98,13 +98,13 @@ actnumber <- stat[,2] == 6
 stat[which(actnumber),2] <- "laying"
 ```
 
-4. Appropriately labels the data set with descriptive variable names.
+* 4. Appropriately labels the data set with descriptive variable names.
 
-+Renames the "activity_number" column to "activity_name"
++ Renames the "activity_number" column to "activity_name"
 ```
 names(stat)[2]<-"activity_name"
 ```
-+Renames the features by removing capitals (except X,Y,Z), adding underscores between words, removing dashes and (), removing duplicated "body" in some labels, using full words so descriptive (except std)
++ Renames the features by removing capitals (except X,Y,Z), adding underscores between words, removing dashes and (), removing duplicated "body" in some labels, using full words so descriptive (except std)
 ```
 newnames<-sub("^t","time_",names(stat[,3:68]))
 newnames<-sub("^f","frequency_",newnames)  
@@ -121,26 +121,26 @@ newnames<-gsub("M","m",newnames)
 newnames<-gsub("mag","magnitude",newnames)
 newnames<-gsub("__","_",newnames)  
 ```
-+Applies descriptive names to features
++ Applies descriptive names to features
 ```
 names(stat)[3:68]<-newnames
 ```
 
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject
+* 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject
 
-+Groups the data by activity name and subject using dplyr
++ Groups the data by activity name and subject using dplyr
 ```
 bothgroup<-group_by(stat,activity_name,subject)
 ```
-+Calculates the mean of each feature column using the groups of activities and subjects. Result is 180 x 68 in size.
++ Calculates the mean of each feature column using the groups of activities and subjects. Result is 180 x 68 in size.
 ```
 both_mean<-summarise_each(bothgroup, funs(mean))
 ```
-*Writes out means table to file "TidyMeans.txt". It will be put into the working directory.
+* Writes out means table to file "TidyMeans.txt". It will be put into the working directory.
 ```
 write.table(both_mean,file="TidyMeans.txt",row.names=FALSE)
 ```
-*To read it back in use (assumes you are in that directory)
+* To read it back in use (assumes you are in that directory)
 ```
 correctoutput<-read.table("TidyMeans.txt",sep=" ",header=TRUE)
 ```

@@ -58,7 +58,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<p>This is the Readme for run_analysis.R. There is also a codebook called “codebook_TidyMeans.md”.</p>
+<p>This is the Readme for run_analysis.R. There is also a codebook called “codebook_TidyMeans.Rmd”.</p>
 <p>The run_analysis.R file takes the raw data from “<a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a>”.</p>
 <p><strong>Initial conditions:</strong> Data is downloaded and unzipped to the working directory. Package dplyr is installed. It will be loaded by the code.</p>
 <p><strong>Output:</strong> The output of the run_analysis.R is a text file, written to disk in the working directory called “TidyMeans.txt”. This file summarizes the 66 features by providing the mean for each subject for each activity. It is tidy data because:</p>
@@ -69,9 +69,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><p>there is one type of data, means, in the file.</p></li>
 </ol>
 <p><strong>Recipe for moving from raw data to tidy data:</strong></p>
-<p>*load dplyr package</p>
-<pre><code>library(dplyr)</code></pre>
-<p>*read in the data from the local directory: X_train.txt, X_test.txt,Y_train.txt,Y_test.txt,activity_labels.txt, features.txt,subject_test.txt,subject_train.txt.</p>
+<ul>
+<li><p>load dplyr package</p>
+<pre><code>library(dplyr)</code></pre></li>
+<li><p>read in the data from the local directory: X_train.txt, X_test.txt,Y_train.txt,Y_test.txt,activity_labels.txt, features.txt,subject_test.txt,subject_train.txt.</p>
 <pre><code>trainX.data&lt;-read.table(&quot;./UCI HAR Dataset/train/X_train.txt&quot;,sep = &quot;&quot;, header=FALSE)
 testX.data&lt;-read.table(&quot;./UCI HAR Dataset/test/X_test.txt&quot;,sep = &quot;&quot;, header=FALSE)
 trainY.data&lt;-read.table(&quot;./UCI HAR Dataset/train/Y_train.txt&quot;,sep = &quot;&quot;, header=FALSE)
@@ -79,35 +80,35 @@ testY.data&lt;-read.table(&quot;./UCI HAR Dataset/test/Y_test.txt&quot;,sep = &q
 activitylabels.data&lt;-read.table(&quot;./UCI HAR Dataset/activity_labels.txt&quot;,sep = &quot;&quot;, header=FALSE)
 featurenames.data&lt;-read.table(&quot;./UCI HAR Dataset/features.txt&quot;,sep = &quot;&quot;, header=FALSE)
 subject_test.data&lt;-read.table(&quot;./UCI HAR Dataset/test/subject_test.txt&quot;,sep = &quot;&quot;, header=FALSE)
-subject_train.data&lt;-read.table(&quot;./UCI HAR Dataset/train/subject_train.txt&quot;,sep = &quot;&quot;, header=FALSE)</code></pre>
-<ol style="list-style-type: decimal">
+subject_train.data&lt;-read.table(&quot;./UCI HAR Dataset/train/subject_train.txt&quot;,sep = &quot;&quot;, header=FALSE)</code></pre></li>
+<li><ol style="list-style-type: decimal">
 <li>Merges the training and the test sets to create one data set.</li>
-</ol>
-<p>+First combines the data set test or train with the subject information for both test and train.</p>
+</ol></li>
+<li><p>First combines the data set test or train with the subject information for both test and train.</p>
 <pre><code>testX1.data&lt;-cbind(subject_test.data,testX.data)
-trainX1.data&lt;-cbind(subject_train.data,trainX.data)</code></pre>
-<p>+Combines by row the X test and X train data into a single data set</p>
+trainX1.data&lt;-cbind(subject_train.data,trainX.data)</code></pre></li>
+<li><p>Combines by row the X test and X train data into a single data set</p>
 <pre><code>newdataX&lt;-rbind(testX1.data,trainX1.data)
-newdataY&lt;-rbind(testY.data,trainY.data)</code></pre>
-<p>+Names columns of X data with “subject”&quot; and feature names from feature file</p>
-<pre><code>names(newdataX)&lt;-c(&quot;subject&quot;,as.character(featurenames.data[,2])) </code></pre>
-<p>+Names column header for Y data as “activity_number”</p>
-<pre><code>names(newdataY)&lt;-&quot;activity_number&quot;</code></pre>
-<p>+Combines the two data sets together so activity number is with each row</p>
-<p>+Makes it a datatable. Note that combined dataset newdata is 10299 x 563 in size</p>
-<pre><code>newdata&lt;-tbl_df(cbind(newdataX$subject,newdataY,newdataX[,2:562]))</code></pre>
-<p>+Renames column 1 to “subject”</p>
-<pre><code>names(newdata)[1]&lt;-&quot;subject&quot;</code></pre>
-<ol start="2" style="list-style-type: decimal">
+newdataY&lt;-rbind(testY.data,trainY.data)</code></pre></li>
+<li><p>Names columns of X data with “subject”&quot; and feature names from feature file</p>
+<pre><code>names(newdataX)&lt;-c(&quot;subject&quot;,as.character(featurenames.data[,2])) </code></pre></li>
+<li><p>Names column header for Y data as “activity_number”</p>
+<pre><code>names(newdataY)&lt;-&quot;activity_number&quot;</code></pre></li>
+<li><p>Combines the two data sets together so activity number is with each row</p></li>
+<li><p>Makes it a datatable. Note that combined dataset newdata is 10299 x 563 in size</p>
+<pre><code>newdata&lt;-tbl_df(cbind(newdataX$subject,newdataY,newdataX[,2:562]))</code></pre></li>
+<li><p>Renames column 1 to “subject”</p>
+<pre><code>names(newdata)[1]&lt;-&quot;subject&quot;</code></pre></li>
+<li><ol start="2" style="list-style-type: decimal">
 <li>Extracts only the measurements on the mean and standard deviation for each measurement.</li>
-</ol>
-<p>+use select from dplyr package with string matching. Note the result is 68 columns.</p>
-<pre><code>stat&lt;-select(newdata, matches(&quot;(subject)+|(activity_number)+|(mean\\(\\))+|(std\\(\\))+&quot;, ignore.case = TRUE))</code></pre>
-<p>+Note that this does not include the angle measures which measure between two variables where one was labeled “Mean” or the variables which calculated the mean of the Frequency.</p>
-<ol start="3" style="list-style-type: decimal">
+</ol></li>
+<li><p>Use select from dplyr package with string matching. Note the result is 68 columns.</p>
+<pre><code>stat&lt;-select(newdata, matches(&quot;(subject)+|(activity_number)+|(mean\\(\\))+|(std\\(\\))+&quot;, ignore.case = TRUE))</code></pre></li>
+<li><p>Note that this does not include the angle measures which measure between two variables where one was labeled “Mean” or the variables which calculated the mean of the Frequency.</p></li>
+<li><ol start="3" style="list-style-type: decimal">
 <li>Uses descriptive activity names to name the activities in the data set</li>
-</ol>
-<p>+Renames each activity number to the associated character text</p>
+</ol></li>
+<li><p>Renames each activity number to the associated character text</p>
 <pre><code>actnumber &lt;- stat[,2] == 1
 stat[which(actnumber),2] &lt;- &quot;walking&quot;
 actnumber &lt;- stat[,2] == 2
@@ -119,13 +120,13 @@ stat[which(actnumber),2] &lt;- &quot;sitting&quot;
 actnumber &lt;- stat[,2] == 5
 stat[which(actnumber),2] &lt;- &quot;standing&quot;
 actnumber &lt;- stat[,2] == 6
-stat[which(actnumber),2] &lt;- &quot;laying&quot;</code></pre>
-<ol start="4" style="list-style-type: decimal">
+stat[which(actnumber),2] &lt;- &quot;laying&quot;</code></pre></li>
+<li><ol start="4" style="list-style-type: decimal">
 <li>Appropriately labels the data set with descriptive variable names.</li>
-</ol>
-<p>+Renames the “activity_number” column to “activity_name”</p>
-<pre><code>names(stat)[2]&lt;-&quot;activity_name&quot;</code></pre>
-<p>+Renames the features by removing capitals (except X,Y,Z), adding underscores between words, removing dashes and (), removing duplicated “body” in some labels, using full words so descriptive (except std)</p>
+</ol></li>
+<li><p>Renames the “activity_number” column to “activity_name”</p>
+<pre><code>names(stat)[2]&lt;-&quot;activity_name&quot;</code></pre></li>
+<li><p>Renames the features by removing capitals (except X,Y,Z), adding underscores between words, removing dashes and (), removing duplicated “body” in some labels, using full words so descriptive (except std)</p>
 <pre><code>newnames&lt;-sub(&quot;^t&quot;,&quot;time_&quot;,names(stat[,3:68]))
 newnames&lt;-sub(&quot;^f&quot;,&quot;frequency_&quot;,newnames)  
 newnames&lt;-gsub(&quot;-&quot;,&quot;_&quot;,newnames)  
@@ -139,20 +140,21 @@ newnames&lt;-gsub(&quot;J&quot;,&quot;j&quot;,newnames)
 newnames&lt;-gsub(&quot;jerkM&quot;,&quot;jerk_m&quot;,newnames)  
 newnames&lt;-gsub(&quot;M&quot;,&quot;m&quot;,newnames)  
 newnames&lt;-gsub(&quot;mag&quot;,&quot;magnitude&quot;,newnames)
-newnames&lt;-gsub(&quot;__&quot;,&quot;_&quot;,newnames)  </code></pre>
-<p>+Applies descriptive names to features</p>
-<pre><code>names(stat)[3:68]&lt;-newnames</code></pre>
-<ol start="5" style="list-style-type: decimal">
+newnames&lt;-gsub(&quot;__&quot;,&quot;_&quot;,newnames)  </code></pre></li>
+<li><p>Applies descriptive names to features</p>
+<pre><code>names(stat)[3:68]&lt;-newnames</code></pre></li>
+<li><ol start="5" style="list-style-type: decimal">
 <li>From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject</li>
-</ol>
-<p>+Groups the data by activity name and subject using dplyr</p>
-<pre><code>bothgroup&lt;-group_by(stat,activity_name,subject)</code></pre>
-<p>+Calculates the mean of each feature column using the groups of activities and subjects. Result is 180 x 68 in size.</p>
-<pre><code>both_mean&lt;-summarise_each(bothgroup, funs(mean))</code></pre>
-<p>*Writes out means table to file “TidyMeans.txt”. It will be put into the working directory.</p>
-<pre><code>write.table(both_mean,file=&quot;TidyMeans.txt&quot;,row.names=FALSE)</code></pre>
-<p>*To read it back in use (assumes you are in that directory)</p>
-<pre><code>correctoutput&lt;-read.table(&quot;TidyMeans.txt&quot;,sep=&quot; &quot;,header=TRUE)</code></pre>
+</ol></li>
+<li><p>Groups the data by activity name and subject using dplyr</p>
+<pre><code>bothgroup&lt;-group_by(stat,activity_name,subject)</code></pre></li>
+<li><p>Calculates the mean of each feature column using the groups of activities and subjects. Result is 180 x 68 in size.</p>
+<pre><code>both_mean&lt;-summarise_each(bothgroup, funs(mean))</code></pre></li>
+<li><p>Writes out means table to file “TidyMeans.txt”. It will be put into the working directory.</p>
+<pre><code>write.table(both_mean,file=&quot;TidyMeans.txt&quot;,row.names=FALSE)</code></pre></li>
+<li><p>To read it back in use (assumes you are in that directory)</p>
+<pre><code>correctoutput&lt;-read.table(&quot;TidyMeans.txt&quot;,sep=&quot; &quot;,header=TRUE)</code></pre></li>
+</ul>
 
 
 </div>
