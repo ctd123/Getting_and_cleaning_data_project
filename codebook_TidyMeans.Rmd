@@ -1,0 +1,173 @@
+---
+title: "Codebook for Run_analysis.R variables"
+author: "ctd123"
+date: "Saturday, March 21, 2015"
+output: html_document
+---
+The 68 column variables in the TidyMeans file are described below. The information for each variable gives the column, the variable name, for features the name from features.txt, and a description for columns 1 and 2. For features, columns 3-68, the desciption is below (taken from the files associated with the original dataset). The features data is the mean of the data on that feature for a specific subject performing a specific activity.
+
+1 subject
+
+  integer 1 to 30 indicating which test subject performed the activity
+
+2 activity
+
+Text description of the activity (6 total) the subject performed
+
+walking
+
+walking_upstairs  
+
+walking_downstairs
+
+sitting
+
+standing
+
+laying
+
+3  time_body_acceleration_mean_X,	tBodyAcc-mean()-X
+
+4	time_body_acceleration_mean_Y,	tBodyAcc-mean()-Y
+
+5	time_body_acceleration_mean_Z,	tBodyAcc-mean()-Z
+
+6	time_body_acceleration_std_X,	tBodyAcc-std()-X
+
+7	time_body_acceleration_std_Y,	tBodyAcc-std()-Y
+
+8	time_body_acceleration_std_Z,	tBodyAcc-std()-Z
+
+9	time_gravity_acceleration_mean_X,	tGravityAcc-mean()-X
+
+10	time_gravity_acceleration_mean_Y,	tGravityAcc-mean()-Y
+
+11	time_gravity_acceleration_mean_Z,	tGravityAcc-mean()-Z
+
+12	time_gravity_acceleration_std_X,	tGravityAcc-std()-X
+
+13	time_gravity_acceleration_std_Y,	tGravityAcc-std()-Y
+
+14	time_gravity_acceleration_std_Z,	tGravityAcc-std()-Z
+
+15	time_body_acceleration_jerk_mean_X,	tBodyAccJerk-mean()-X
+
+16	time_body_acceleration_jerk_mean_Y,	tBodyAccJerk-mean()-Y
+
+17	time_body_acceleration_jerk_mean_Z,	tBodyAccJerk-mean()-Z
+
+18	time_body_acceleration_jerk_std_X,	tBodyAccJerk-std()-X
+
+19	time_body_acceleration_jerk_std_Y,	tBodyAccJerk-std()-Y
+
+20	time_body_acceleration_jerk_std_Z,	tBodyAccJerk-std()-Z
+
+21	time_body_gyroscope_mean_X,	tBodyGyro-mean()-X
+
+22	time_body_gyroscope_mean_Y,	tBodyGyro-mean()-Y
+
+23	time_body_gyroscope_mean_Z,	tBodyGyro-mean()-Z
+
+24	time_body_gyroscope_std_X,	tBodyGyro-std()-X
+
+25	time_body_gyroscope_std_Y,	tBodyGyro-std()-Y
+
+26	time_body_gyroscope_std_Z,	tBodyGyro-std()-Z
+
+27	time_body_gyroscope_jerk_mean_X,	tBodyGyroJerk-mean()-X
+
+28	time_body_gyroscope_jerk_mean_Y,	tBodyGyroJerk-mean()-Y
+
+29	time_body_gyroscope_jerk_mean_Z,	tBodyGyroJerk-mean()-Z
+
+30	time_body_gyroscope_jerk_std_X,	tBodyGyroJerk-std()-X
+
+31	time_body_gyroscope_jerk_std_Y,	tBodyGyroJerk-std()-Y
+
+32	time_body_gyroscope_jerk_std_Z,	tBodyGyroJerk-std()-Z
+
+33	time_body_acceleration_magnitude_mean,	tBodyAccMag-mean()
+
+34	time_body_acceleration_magnitude_std,	tBodyAccMag-std()
+
+35	time_gravity_acceleration_magnitude_mean,	tGravityAccMag-mean()
+
+36	time_gravity_acceleration_magnitude_std,	tGravityAccMag-std()
+
+37	time_body_acceleration_jerk_magnitude_mean,	tBodyAccJerkMag-mean()
+
+38	time_body_acceleration_jerk_magnitude_std,	tBodyAccJerkMag-std()
+
+39	time_body_gyroscope_magnitude_mean,	tBodyGyroMag-mean()
+
+40	time_body_gyroscope_magnitude_std,	tBodyGyroMag-std()
+
+41	time_body_gyroscope_jerk_magnitude_mean,	tBodyGyroJerkMag-mean()
+
+42	time_body_gyroscope_jerk_magnitude_std,	tBodyGyroJerkMag-std()
+
+43	frequency_body_acceleration_mean_X,	fBodyAcc-mean()-X
+
+44	frequency_body_acceleration_mean_Y,	fBodyAcc-mean()-Y
+
+45	frequency_body_acceleration_mean_Z,	fBodyAcc-mean()-Z
+
+46	frequency_body_acceleration_std_X,	fBodyAcc-std()-X
+
+47	frequency_body_acceleration_std_Y,	fBodyAcc-std()-Y
+
+48	frequency_body_acceleration_std_Z,	fBodyAcc-std()-Z
+
+49	frequency_body_acceleration_jerk_mean_X,	fBodyAccJerk-mean()-X
+
+50	frequency_body_acceleration_jerk_mean_Y,	fBodyAccJerk-mean()-Y
+
+51	frequency_body_acceleration_jerk_mean_Z,	fBodyAccJerk-mean()-Z
+
+52	frequency_body_acceleration_jerk_std_X,	fBodyAccJerk-std()-X
+
+53	frequency_body_acceleration_jerk_std_Y,	fBodyAccJerk-std()-Y
+
+54	frequency_body_acceleration_jerk_std_Z,	fBodyAccJerk-std()-Z
+
+55	frequency_body_gyroscope_mean_X,	fBodyGyro-mean()-X
+
+56	frequency_body_gyroscope_mean_Y,	fBodyGyro-mean()-Y
+
+57	frequency_body_gyroscope_mean_Z,	fBodyGyro-mean()-Z
+
+58	frequency_body_gyroscope_std_X,	fBodyGyro-std()-X
+
+59	frequency_body_gyroscope_std_Y,	fBodyGyro-std()-Y
+
+60	frequency_body_gyroscope_std_Z,	fBodyGyro-std()-Z
+
+61	frequency_body_acceleration_magnitude_mean,	fBodyAccMag-mean()
+
+62	frequency_body_acceleration_magnitude_std,	fBodyAccMag-std()
+
+63	frequency_body_acceleration_jerk_magnitude_mean,	fBodyBodyAccJerkMag-mean()
+
+64	frequency_body_acceleration_jerk_magnitude_std,	fBodyBodyAccJerkMag-std()
+
+65	frequency_body_gyroscope_magnitude_mean,	fBodyBodyGyroMag-mean()
+
+66	frequency_body_gyroscope_magnitude_std,	fBodyBodyGyroMag-std()
+
+67	frequency_body_gyroscope_jerk_magnitude_mean,	fBodyBodyGyroJerkMag-mean()
+
+68	frequency_body_gyroscope_jerk_magnitude_std,	fBodyBodyGyroJerkMag-std()
+
+
+The features are as described in the files readme.txt, and features_info.txt in the zipped data set available at https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+
+The feature data is from sensors (accelerometer and gyropscope) on 30 subjects doing different activities (from the activity column). Each number given is the mean of the variable for a specific subject performing a specific activity. Each feature data was normalized between -1 and 1, so all means are also between -1 and 1.
+
+References:
+
+Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
+
+
+
+
+
